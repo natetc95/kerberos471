@@ -23,10 +23,12 @@ while cs:
                 pass
             elif m == 'KERBEROS_ESTABLISH_CONN':
                 print 'CONN: Client at ' + addr[0] + ':' + str(addr[1]) + ' is establishing a connection!'
-                print 'KERBEROS: :)'
-                cs.send(':)')
+                print 'KERBEROS: CLIENT_CONN_ESTABLISHED'
+                cs.send('CLIENT_CONN_ESTABLISHED')
             elif m == 'KERBEROS_INIT':
                 print 'CONN: Authentication request received from ' + addr[0] + ':' + str(addr[1]) + '!'
+                print 'KERBEROS: CLIENT_SEND_CREDS'
+                cs.send('CLIENT_SEND_CREDS')
             elif m == 'KERBEROS_ABORT':
                 print 'CONN: Client advised abort!'
                 sys.exit(-1)
