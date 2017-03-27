@@ -51,10 +51,10 @@ class KerberosClient(object):
     def initializeKerberos(self):
         if self.isConnected():
             try:
-                print 'CLIENT: Initializing request for KERBEROS authentication!'
-                self.cs.send('KERBEROS_INIT\0');
+                self.cs.send('AS_REQ\0');
+                print 'CLIENT: AS_REQ Initial user authentication request sent to KERBEROS!'
             except:
-                print 'ERROR: Failed to initialize request'
+                print 'ERROR: Failed to send request'
                 return -1
             try:
                 while True:
@@ -64,6 +64,7 @@ class KerberosClient(object):
                         if msg == 'CLIENT_SEND_CREDS':
                             uname = raw_input('  Username: ')
                             pword = getpass.getpass('  Password: ')
+                            self.cs.send(uname + '\0' + pword)
                         break
                     else:
                         break
