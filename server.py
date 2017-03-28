@@ -27,6 +27,13 @@ print """
 
  Log:\n"""
 
+def awaitResponse(cs, size=1024):
+    while True:
+        msg = cs.recv(size)
+        if msg:
+            print '  CONN: ' + msg
+            return msg
+
 ss = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 ss.bind(('127.0.0.1', 88))
 ss.listen(5)
@@ -38,6 +45,12 @@ while cs:
         for m in msg:
             if m == '':
                 pass
+            elif m == 'AM_I_ALONE':
+                print '  CONN: Client asked if we were alive.\n  KERBEROS: Yes'
+            elif m == 'SEND_AS_REQ_ACK':
+                print '  CONN: Client wants to send AS_REQ.\n  KERBEROS: KERBEROS_SEND_TRAFFIC'
+                cs.send('KERBEROS_SEND_TRAFFIC')
+                awaitResponse(cs)
             elif m == 'KERBEROS_ESTABLISH_CONN':
                 print '  CONN: Client at ' + addr[0] + ':' + str(addr[1]) + ' is establishing a connection!'
                 print '  KERBEROS: CLIENT_CONN_ESTABLISHED'
@@ -60,7 +73,7 @@ while cs:
                 print '  CONN: Client advised abort!'
                 sys.exit(-1)
             else:
-                print m
+                print '  CONN: ' + m
     elif not msg:
         break
 cs.close()
