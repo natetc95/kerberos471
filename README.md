@@ -11,6 +11,24 @@ A Python implementation of the Kerberos Authentication Protocol
 
 Written in Python 2.7.11
 
+A lot of my knowledge of the protocol stems from this [site](http://www.zeroshell.org/kerberos/Kerberos-operation/)
+
+Uses a lot of function from the pyCrypto library [link](https://www.dlitz.net/software/pycrypto/)
+
+## Use
+
+Navigate to the directory where the project was unzipped, then in the command line, run:
+
+    python runproject.py
+    
+This will spawn four command lines:
+
+ * Client
+ * Authentication Server (AS)
+ * Ticket Granting Server (TGS)
+ * Principal Service
+
+
 ## License (MIT)
 
 Copyright 2017 Nathaniel Christianson
