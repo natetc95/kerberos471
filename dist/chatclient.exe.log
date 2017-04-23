@@ -1,0 +1,31 @@
+Exception in thread Thread-1:
+Traceback (most recent call last):
+  File "threading.pyc", line 801, in __bootstrap_inner
+  File "threading.pyc", line 754, in run
+  File "chatclient.py", line 97, in startThread
+  File "socket.pyc", line 174, in _dummy
+error: [Errno 9] Bad file descriptor
+
+Exception in thread Thread-1:
+Traceback (most recent call last):
+  File "threading.pyc", line 801, in __bootstrap_inner
+  File "threading.pyc", line 754, in run
+  File "chatclient.py", line 40, in startThread
+error: [Errno 10054] An existing connection was forcibly closed by the remote host
+
+Exception in thread Thread-1:
+Traceback (most recent call last):
+  File "threading.pyc", line 801, in __bootstrap_inner
+  File "threading.pyc", line 754, in run
+  File "chatclient.py", line 101, in startThread
+  File "socket.pyc", line 174, in _dummy
+error: [Errno 9] Bad file descriptor
+
+Exception in thread Thread-1:
+Traceback (most recent call last):
+  File "threading.pyc", line 801, in __bootstrap_inner
+  File "threading.pyc", line 754, in run
+  File "chatclient.py", line 40, in startThread
+  File "socket.pyc", line 174, in _dummy
+error: [Errno 9] Bad file descriptor
+

@@ -9,4 +9,3 @@ authServer = threading.Thread(target=runPy, args=("server.py",), name="auth_serv
 client = threading.Thread(target=runPy, args=("client.py",), name="client")
 authServer.start()
 client.start()
- 

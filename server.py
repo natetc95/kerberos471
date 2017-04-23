@@ -34,6 +34,16 @@ def awaitResponse(cs, size=1024):
             print '  CONN: ' + msg
             return msg
 
+def generateTGT():
+    pass
+
+def generateSK_TGS():
+    from pycrypto.Hash import SHA as hAlgorithm
+    import os
+    key = hAlgorithm.new(os.urandom(8)).digest()[:8]
+    return key
+
+print generateSK_TGS()
 ss = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 ss.bind(('127.0.0.1', 88))
 ss.listen(5)
@@ -51,6 +61,8 @@ while cs:
                 print '  CONN: Client wants to send AS_REQ.\n  KERBEROS: KERBEROS_SEND_TRAFFIC'
                 cs.send('KERBEROS_SEND_TRAFFIC')
                 awaitResponse(cs)
+                print '  KERBEROS: KERBEROS_TRAFFIC_RECV'
+                cs.send('KERBEROS_TRAFFIC_RECV')
             elif m == 'KERBEROS_ESTABLISH_CONN':
                 print '  CONN: Client at ' + addr[0] + ':' + str(addr[1]) + ' is establishing a connection!'
                 print '  KERBEROS: CLIENT_CONN_ESTABLISHED'

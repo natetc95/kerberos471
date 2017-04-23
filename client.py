@@ -88,41 +88,15 @@ class KerberosClient(object):
             return -1
         return 1
 
-    def initializeKerberos(self):
-        if self.isConnected():
-            try:
-                self.cs.send('KERBEROS_AUTH_INIT\0');
-                print '  CLIENT: Authentication request sent to KERBEROS!'
-            except:
-                print '  ERROR: Failed to send request'
-                return -1
-            try:
-                while True:
-                    msg = self.cs.recv(1024)
-                    if msg:
-                        print '  KERBEROS: ' + msg
-                        if msg == 'CLIENT_SEND_AS_REQ':
-                            uname = raw_input('  > Principal Client: ')
-                            sname = raw_input('  > Principal Service: ')
-                            ltime = raw_input('  > Lifetime (minutes): ')
-                            pword = getpass.getpass('  > Password: ')
-                            self.cs.send('{"un": "' + uname + '", "sn": "' + sname + '", "lt": ' + ltime + '}')
-                        break
-                    else:
-                        break
-            except:
-                print '  ERROR: No response from KERBEROS'
-                return -1
-            return 1
-
-    def send_AS_REQ(self, principalClient, principalService, lifetime):
+    def send_AS_REQ(self, principalClient, pw, principalService, lifetime):
         if self.isConnected():
             print '  CLIENT: Sending AS request. Awaiting Server confirmation...'
             self.cs.send("SEND_AS_REQ_ACK")
             if self.awaitResponse() == 'KERBEROS_SEND_TRAFFIC':
-                print "ayy"
+                print '  CLIENT: Sending AS package!'
                 self.cs.send('{"pC": "%s", "pS": "%s", "lt": %s}' % (principalClient, principalService, str(lifetime)))
-
+                self.awaitResponse()
+                
     def closeConnection(self):
         if self.isConnected():
             self.cs.shutdown(0)
@@ -136,6 +110,6 @@ class KerberosClient(object):
 if __name__ == '__main__':
     client = KerberosClient()
     client.establishConnection()
-    client.send_AS_REQ("nate", "nate", 11)
+    client.send_AS_REQ(raw_input("  > Username: "), getpass.getpass("  > Password: "), raw_input("  > Service: "), int(raw_input("  > Lifetime: ")))
     client.closeConnection()
     while True: pass
